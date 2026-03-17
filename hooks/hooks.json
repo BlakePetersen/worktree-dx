@@ -1,5 +1,5 @@
 {
-  "description": "Worktree DX automation: auto-setup on enter, self-improvement prompt on exit",
+  "description": "Worktree DX automation: setup on enter, self-improvement on exit, stale detection on start",
   "hooks": {
     "PostToolUse": [
       {
@@ -19,6 +19,16 @@
           {
             "type": "command",
             "command": "echo 'Before exiting: if you encountered ANY worktree friction this session (missing deps, env errors, build failures, manual steps), you MUST update the project setup-worktree.sh (or create one) to handle it automatically. Save a memory note about the fix. Check .claude/worktree-setup.log for timing data.'"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "STALE=$(git worktree list --porcelain 2>/dev/null | awk '/^worktree /{p=$2}/^branch /{b=$2; if(p!=m) system(\"git merge-base --is-ancestor \" b \" origin/main 2>/dev/null && echo \" b)}' m=$(git worktree list --porcelain | head -1 | sed 's/^worktree //') 2>/dev/null); [ -n \"$STALE\" ] && echo \"Stale worktrees detected (branches merged into main). Run /worktree-clean to remove them.\" || true"
           }
         ]
       }
