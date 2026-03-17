@@ -4,7 +4,7 @@ Stack-aware git worktree automation for [Claude Code](https://claude.com/claude-
 
 ## Why
 
-Spinning up a git worktree in a real project means repeating the same manual steps: install deps, copy env files, build shared packages, hope you didn't forget anything. Multiply that by every branch, every day, and it's death by a thousand paper cuts.
+Spinning up a git worktree in a real project means repeating the same manual steps: install deps, copy env files, build shared packages, hope you didn't forget anything. Multiply that by every branch, every day, and it's straight ☠️.
 
 worktree-dx eliminates this by hooking into Claude Code's worktree lifecycle. It detects your stack, runs the right setup, and gets out of the way. And it gets better over time — every worktree session is an opportunity to improve the next one.
 
