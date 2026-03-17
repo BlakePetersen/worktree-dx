@@ -1,0 +1,27 @@
+{
+  "description": "Worktree DX automation: auto-setup on enter, self-improvement prompt on exit",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "EnterWorktree",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f scripts/setup-worktree.sh ]; then bash scripts/setup-worktree.sh; else bash \"${CLAUDE_PLUGIN_ROOT}/scripts/setup-worktree.sh\"; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "ExitWorktree",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Before exiting: if you encountered ANY worktree friction this session (missing deps, env errors, build failures, manual steps), you MUST update the project setup-worktree.sh (or create one) to handle it automatically. Save a memory note about the fix. Check .claude/worktree-setup.log for timing data.'"
+          }
+        ]
+      }
+    ]
+  }
+}
